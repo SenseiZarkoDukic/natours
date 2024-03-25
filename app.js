@@ -106,14 +106,15 @@ app.delete('/api/v1/tours/:id', (req, res) => {
       message: 'Invalid ID',
     });
   }
-  // const deleteTour = tours.splice(tours.indexOf(tour), 1);
+  const deleteTour = tours.splice(tours.indexOf(tour), 1);
   fs.writeFile(
     `${__dirname}/dev-data/data/tours-simple.json`,
     JSON.stringify(tours),
     (err) => {
       res.status(204).json({
         status: 'success',
-        data: null,
+        // data: null,
+        data: { deleteTour },
       });
     }
   );
