@@ -25,6 +25,10 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
 
+const users = JSON.parse(
+  fs.readFileSync(`${__dirname}/dev-data/data/users.json`)
+);
+
 // 2) ROUTE HANDLERS
 const getAllTours = (req, res) => {
   // console.log(req.requestTime);
@@ -126,6 +130,38 @@ const deleteTour = (req, res) => {
     }
   );
 };
+const getAllUsers = (req, res) => {
+  if (!users) {
+    return res.status(500).json({
+      status: 'error',
+      message: 'This route is not yet defined',
+    });
+  }
+  res.status(200).json({
+    status: 'success',
+    results: users.length,
+    data: {
+      users,
+    },
+  });
+};
+
+const createUser = (req, res) => {
+  const newUser = Object.assign(req.body);
+  users.push(newUser);
+  fs.writeFile(
+    `${__dirname}/dev-data/data/users.json`,
+    JSON.stringify(users),
+    (err) => {
+      res.status(201).json({
+        status: 'success',
+        data: {
+          newUser,
+        },
+      });
+    }
+  );
+};
 
 // app.get('/api/v1/tours', getAllTours);
 // app.post('/api/v1/tours', createTour);
@@ -142,6 +178,8 @@ app
   .get(getTour)
   .patch(updateTour)
   .delete(deleteTour);
+
+app.route('/api/v1/users').get(getAllUsers).post(createUser);
 
 // 4) START SERVER
 
