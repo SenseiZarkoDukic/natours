@@ -6,6 +6,11 @@ const app = express();
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log('Hello from the middleware 👋');
+  next();
+});
+
 const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
 );
@@ -96,15 +101,14 @@ const deleteTour = (req, res) => {
       message: 'Invalid ID',
     });
   }
-  const deleteTour = tours.splice(tours.indexOf(tour), 1);
+  const deleteTourObj = tours.splice(tours.indexOf(tour), 1);
   fs.writeFile(
     `${__dirname}/dev-data/data/tours-simple.json`,
     JSON.stringify(tours),
     (err) => {
       res.status(204).json({
         status: 'success',
-        // data: null,
-        data: { deleteTour },
+        data: { deleteTourObj },
       });
     }
   );
