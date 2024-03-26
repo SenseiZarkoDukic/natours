@@ -147,7 +147,12 @@ const getAllUsers = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  const newUser = Object.assign(req.body);
+  const lastId = users[users.length - 1]._id;
+  const prefix = lastId.slice(0, -1);
+  const lastNum = parseInt(lastId.slice(-1), 10);
+  const newId = prefix + (lastNum + 1).toString();
+  const newUser = Object.assign({ _id: newId }, req.body);
+  console.log(newId, newUser);
   users.push(newUser);
   fs.writeFile(
     `${__dirname}/dev-data/data/users.json`,
@@ -156,7 +161,7 @@ const createUser = (req, res) => {
       res.status(201).json({
         status: 'success',
         data: {
-          newUser,
+          user: newUser,
         },
       });
     }
