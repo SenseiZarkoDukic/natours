@@ -269,10 +269,6 @@ const tourRouter = express.Router(); // create a TOUR router
 
 const userRouter = express.Router(); // create a USER router
 
-tourRouter.route('/').get(getAllTours).post(createTour);
-
-tourRouter.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
-
 userRouter.route('/').get(getAllUsers).post(createUser);
 
 userRouter.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
