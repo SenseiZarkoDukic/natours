@@ -1,3 +1,7 @@
-tourRouter.route('/').get(getAllTours).post(createTour);
+const express = require('express');
 
-tourRouter.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
+const router = express.Router(); // create a TOUR router
+
+router.route('/').get(getAllTours).post(createTour);
+
+router.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
