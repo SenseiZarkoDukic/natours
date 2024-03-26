@@ -147,6 +147,23 @@ const getAllUsers = (req, res) => {
   });
 };
 
+const getUser = (req, res) => {
+  const id = req.params.id;
+  const user = users.find((el) => el._id === id);
+  if (!user) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid ID',
+    });
+  }
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user,
+    },
+  });
+};
+
 const createUser = (req, res) => {
   const lastId = users[users.length - 1]._id;
   const prefix = lastId.slice(0, -1);
@@ -159,11 +176,11 @@ const createUser = (req, res) => {
   const email = `${firstName.toLowerCase()}@example.com`;
 
   // Set the role and active status
-  const role = 'user';
+  const role = req.body.role || 'user';
   const active = true;
 
   // Generate a photo name by replacing spaces in the name with dashes and appending ".jpg"
-  const photo = `${firstName.toLowerCase()}.jpg`;
+  const photo = `user-${users.length + 1}.jpg`;
 
   // Generate a password by hashing the name (this is just an example, you should use a more secure method in a real application)
   const password = crypto
@@ -195,6 +212,51 @@ const createUser = (req, res) => {
   );
 };
 
+const updateUser = (req, res) => {
+  const id = req.params.id;
+  const user = users.find((el) => el._id === id);
+  if (!user) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid ID',
+    });
+  }
+  const editedUser = Object.assign(user, req.body);
+  fs.writeFile(
+    `${__dirname}/dev-data/data/users.json`,
+    JSON.stringify(users),
+    (err) => {
+      res.status(200).json({
+        status: 'success',
+        data: {
+          user: editedUser,
+        },
+      });
+    }
+  );
+};
+
+const deleteUser = (req, res) => {
+  const id = req.params.id;
+  const user = users.find((el) => el._id === id);
+  if (!user) {
+    return res.status(404).json({
+      status: 'fail',
+      message: 'Invalid ID',
+    });
+  }
+  const deleteUserObj = users.splice(users.indexOf(user), 1);
+  fs.writeFile(
+    `${__dirname}/dev-data/data/users.json`,
+    JSON.stringify(users),
+    (err) => {
+      res.status(204).json({
+        status: 'success',
+        data: { deleteUserObj },
+      });
+    }
+  );
+};
 // app.get('/api/v1/tours', getAllTours);
 // app.post('/api/v1/tours', createTour);
 // app.get('/api/v1/tours/:id', getTour);

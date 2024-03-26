@@ -181,11 +181,11 @@
   },
   {
     "_id": "5c8a24a02f8fb814b56fa194",
-    "name": "Zarko Dukic",
-    "email": "zarko@example.com",
+    "name": "Maja Dimitrijevic",
+    "email": "maja@example.com",
     "role": "user",
     "active": true,
-    "photo": "zarko.jpg",
+    "photo": "user-21.jpg",
     "password": "791ad7bb478d473e2566af31de19e262af5bc139d6de95e94a13d14395d4f99b"
   }
 ]
