@@ -264,8 +264,6 @@ const deleteUser = (req, res) => {
 // app.delete('/api/v1/tours/:id', deleteTour);
 
 // 3) ROUTES
-app.use('/api/v1/tours', tourRouter); // use the router middleware (mounting the router on a new route - this is a form of middleware stacking or mounting a router on a route)
-app.use('/api/v1/users', userRouter); // use the router middleware
 
 const tourRouter = express.Router(); // create a TOUR router
 
@@ -278,6 +276,9 @@ tourRouter.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
 userRouter.route('/').get(getAllUsers).post(createUser);
 
 userRouter.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
+
+app.use('/api/v1/tours', tourRouter); // use the router middleware (mounting the router on a new route - this is a form of middleware stacking or mounting a router on a route)
+app.use('/api/v1/users', userRouter); // use the router middleware
 
 // 4) START SERVER
 

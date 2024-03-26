@@ -187,5 +187,14 @@
     "active": true,
     "photo": "user-21.jpg",
     "password": "791ad7bb478d473e2566af31de19e262af5bc139d6de95e94a13d14395d4f99b"
+  },
+  {
+    "_id": "5c8a24a02f8fb814b56fa195",
+    "name": "Zarko Dukic",
+    "email": "zarko@example.com",
+    "role": "lead-guide",
+    "active": true,
+    "photo": "user-22.jpg",
+    "password": "791ad7bb478d473e2566af31de19e262af5bc139d6de95e94a13d14395d4f99b"
   }
 ]
