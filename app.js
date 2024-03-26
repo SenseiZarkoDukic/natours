@@ -2,6 +2,7 @@ const fs = require('fs');
 const express = require('express');
 const { get } = require('http');
 const morgan = require('morgan'); // 3rd party middleware
+const crypto = require('crypto');
 
 const app = express();
 
@@ -151,8 +152,34 @@ const createUser = (req, res) => {
   const prefix = lastId.slice(0, -1);
   const lastNum = parseInt(lastId.slice(-1), 10);
   const newId = prefix + (lastNum + 1).toString();
-  const newUser = Object.assign({ _id: newId }, req.body);
-  console.log(newId, newUser);
+
+  // Split the name by spaces and take the first part
+  const firstName = req.body.name.split(' ')[0];
+  // Generate an email by replacing spaces in the name with dots and appending "@example.com"
+  const email = `${firstName.toLowerCase()}@example.com`;
+
+  // Set the role and active status
+  const role = 'user';
+  const active = true;
+
+  // Generate a photo name by replacing spaces in the name with dashes and appending ".jpg"
+  const photo = `${firstName.toLowerCase()}.jpg`;
+
+  // Generate a password by hashing the name (this is just an example, you should use a more secure method in a real application)
+  const password = crypto
+    .createHash('sha256')
+    .update(req.body.name)
+    .digest('hex');
+  const newUser = Object.assign({
+    _id: newId,
+    name: req.body.name,
+    email,
+    role,
+    active,
+    photo,
+    password,
+  });
+  // console.log(lastId, prefix, lastNum, newId, newUser);
   users.push(newUser);
   fs.writeFile(
     `${__dirname}/dev-data/data/users.json`,
