@@ -265,8 +265,6 @@ const deleteUser = (req, res) => {
 
 // 3) ROUTES
 
-const userRouter = express.Router(); // create a USER router
-
 app.use('/api/v1/tours', tourRouter); // use the router middleware (mounting the router on a new route - this is a form of middleware stacking or mounting a router on a route)
 app.use('/api/v1/users', userRouter); // use the router middleware
 
