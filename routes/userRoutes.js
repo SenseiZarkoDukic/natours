@@ -1,4 +1,6 @@
+const fs = require('fs');
 const express = require('express');
+const crypto = require('crypto');
 
 const users = JSON.parse(
   fs.readFileSync(`${__dirname}/dev-data/data/users.json`)

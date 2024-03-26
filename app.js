@@ -1,8 +1,7 @@
-const fs = require('fs');
 const express = require('express');
 const { get } = require('http');
 const morgan = require('morgan'); // 3rd party middleware
-const crypto = require('crypto');
+
 const tourRouter = require('./routes/tourRoutes'); // import the tour router
 const userRouter = require('./routes/userRoutes'); // import the user router
 
