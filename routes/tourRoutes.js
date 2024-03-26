@@ -46,7 +46,7 @@ const createTour = (req, res) => {
 
   tours.push(newTour);
   fs.writeFile(
-    `${__dirname}/dev-data/data/tours-simple.json`,
+    `${__dirname}/../dev-data/data/tours-simple.json`,
     JSON.stringify(tours),
     (err) => {
       res.status(201).json({
@@ -71,7 +71,7 @@ const updateTour = (req, res) => {
   const editedTour = Object.assign(tour, req.body);
 
   fs.writeFile(
-    `${__dirname}/dev-data/data/tours-simple.json`,
+    `${__dirname}/../dev-data/data/tours-simple.json`,
     JSON.stringify(tours),
     (err) => {
       res.status(200).json({
@@ -95,7 +95,7 @@ const deleteTour = (req, res) => {
   }
   const deleteTourObj = tours.splice(tours.indexOf(tour), 1);
   fs.writeFile(
-    `${__dirname}/dev-data/data/tours-simple.json`,
+    `${__dirname}/../dev-data/data/tours-simple.json`,
     JSON.stringify(tours),
     (err) => {
       res.status(204).json({

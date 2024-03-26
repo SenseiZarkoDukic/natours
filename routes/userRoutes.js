@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const users = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/users.json`)
 );
-
+console.log(users);
 const getAllUsers = (req, res) => {
   if (!users) {
     return res.status(500).json({
@@ -74,7 +74,7 @@ const createUser = (req, res) => {
   // console.log(lastId, prefix, lastNum, newId, newUser);
   users.push(newUser);
   fs.writeFile(
-    `${__dirname}/dev-data/data/users.json`,
+    `${__dirname}/../dev-data/data/users.json`,
     JSON.stringify(users),
     (err) => {
       res.status(201).json({
@@ -98,7 +98,7 @@ const updateUser = (req, res) => {
   }
   const editedUser = Object.assign(user, req.body);
   fs.writeFile(
-    `${__dirname}/dev-data/data/users.json`,
+    `${__dirname}/../dev-data/data/users.json`,
     JSON.stringify(users),
     (err) => {
       res.status(200).json({
@@ -122,7 +122,7 @@ const deleteUser = (req, res) => {
   }
   const deleteUserObj = users.splice(users.indexOf(user), 1);
   fs.writeFile(
-    `${__dirname}/dev-data/data/users.json`,
+    `${__dirname}/../dev-data/data/users.json`,
     JSON.stringify(users),
     (err) => {
       res.status(204).json({
