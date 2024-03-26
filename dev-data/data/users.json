@@ -196,5 +196,14 @@
     "active": true,
     "photo": "user-22.jpg",
     "password": "791ad7bb478d473e2566af31de19e262af5bc139d6de95e94a13d14395d4f99b"
+  },
+  {
+    "_id": "5c8a24a02f8fb814b56fa196",
+    "name": "Goran Dukic",
+    "email": "goran@example.com",
+    "role": "lead",
+    "active": true,
+    "photo": "user-23.jpg",
+    "password": "a90ed4bc74f5244efab717fc34c916588bc797727efc832a77074721353d7641"
   }
 ]
