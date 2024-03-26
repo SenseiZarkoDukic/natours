@@ -1,5 +1,9 @@
 const express = require('express');
 
+const users = JSON.parse(
+  fs.readFileSync(`${__dirname}/dev-data/data/users.json`)
+);
+
 const getAllUsers = (req, res) => {
   if (!users) {
     return res.status(500).json({

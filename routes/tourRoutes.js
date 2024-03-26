@@ -1,5 +1,9 @@
 const express = require('express');
 
+const tours = JSON.parse(
+  fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`)
+);
+
 const getAllTours = (req, res) => {
   // console.log(req.requestTime);
   res.status(200).json({
@@ -106,3 +110,5 @@ const router = express.Router(); // create a TOUR router
 router.route('/').get(getAllTours).post(createTour);
 
 router.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
+
+module.exports = router;
