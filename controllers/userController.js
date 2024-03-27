@@ -5,7 +5,6 @@ const crypto = require('crypto');
 const users = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/users.json`)
 );
-console.log(users);
 
 exports.getAllUsers = (req, res) => {
   if (!users) {

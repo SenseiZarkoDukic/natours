@@ -28,9 +28,4 @@ app.use((req, res, next) => {
 app.use('/api/v1/tours', tourRouter); // use the router middleware (mounting the router on a new route - this is a form of middleware stacking or mounting a router on a route)
 app.use('/api/v1/users', userRouter); // use the router middleware
 
-// 4) START SERVER
-
-const port = 3000;
-app.listen(port, () => {
-  console.log(`App running on port ${port}`);
-});
+module.exports = app;
