@@ -4,7 +4,7 @@ const tours = JSON.parse(
   fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
 
-const getAllTours = (req, res) => {
+exports.getAllTours = (req, res) => {
   // console.log(req.requestTime);
   res.status(200).json({
     status: 'success',
@@ -16,7 +16,7 @@ const getAllTours = (req, res) => {
   });
 };
 
-const getTour = (req, res) => {
+exports.getTour = (req, res) => {
   const id = req.params.id * 1;
   const tour = tours.find((el) => el.id === id);
 
@@ -37,7 +37,7 @@ const getTour = (req, res) => {
   });
 };
 
-const createTour = (req, res) => {
+exports.createTour = (req, res) => {
   // console.log(req.body);
 
   const newId = tours[tours.length - 1].id + 1;
@@ -58,7 +58,7 @@ const createTour = (req, res) => {
   );
 };
 
-const updateTour = (req, res) => {
+exports.updateTour = (req, res) => {
   const id = req.params.id * 1;
   const tour = tours.find((el) => el.id === id);
   if (!tour) {
@@ -83,7 +83,7 @@ const updateTour = (req, res) => {
   );
 };
 
-const deleteTour = (req, res) => {
+exports.deleteTour = (req, res) => {
   const id = req.params.id * 1;
   const tour = tours.find((el) => el.id === id);
   if (!tour) {
