@@ -8,8 +8,11 @@ const userRouter = require('./routes/userRoutes'); // import the user router
 const app = express();
 
 // 1) MIDDLEWARES
+console.log(process.env.NODE_ENV); // environment variable
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev')); // logging middleware
+}
 
-app.use(morgan('dev')); // logging middleware
 app.use(express.json()); // middleware to parse the body of the request
 app.use(express.static(`${__dirname}/public`)); // middleware to serve static files
 
