@@ -1,5 +1,5 @@
 const express = require('express');
-const { get } = require('http');
+
 const morgan = require('morgan'); // 3rd party middleware
 
 const tourRouter = require('./routes/tourRoutes'); // import the tour router
@@ -10,8 +10,8 @@ const app = express();
 // 1) MIDDLEWARES
 
 app.use(morgan('dev')); // logging middleware
-
 app.use(express.json()); // middleware to parse the body of the request
+app.use(express.static(`${__dirname}/public`)); // middleware to serve static files
 
 app.use((req, res, next) => {
   console.log('Hello from the middleware 👋');
