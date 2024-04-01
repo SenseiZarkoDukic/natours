@@ -14,7 +14,9 @@ const {
 
 // router.param('id', checkID);
 
-router.route('/').get(getAllTours).post(checkBody, createTour);
+// router.route('/').get(getAllTours).post(checkBody, createTour);  // This is a form of middleware stacking or mounting a router on a route
+
+router.route('/').get(getAllTours).post(createTour);
 
 router.route('/:id').get(getTour).patch(updateTour).delete(deleteTour);
 
