@@ -8,11 +8,11 @@ const {
   createTour,
   updateTour,
   deleteTour,
-  checkID,
+  // checkID,
   checkBody,
 } = tourController;
 
-router.param('id', checkID);
+// router.param('id', checkID);
 
 router.route('/').get(getAllTours).post(checkBody, createTour);
 
