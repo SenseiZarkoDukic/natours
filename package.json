@@ -23,5 +23,8 @@
     "mongodb": "^6.5.0",
     "mongoose": "^8.2.4",
     "morgan": "^1.10.0"
+  },
+  "engines": {
+    "node": "16.x"
   }
 }
