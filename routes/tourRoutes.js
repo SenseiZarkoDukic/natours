@@ -9,7 +9,7 @@ const {
   updateTour,
   deleteTour,
   // checkID,
-  checkBody,
+  // checkBody,
 } = tourController;
 //
 // router.param('id', checkID);
