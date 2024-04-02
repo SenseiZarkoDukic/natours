@@ -25,3 +25,13 @@ const importData = async () => {
     console.log(err);
   }
 };
+
+// DELETE ALL DATA FROM DB
+const deleteData = async () => {
+  try {
+    await Tour.deleteMany();
+    console.log('Data successfully deleted!');
+  } catch (err) {
+    console.log(err);
+  }
+};
