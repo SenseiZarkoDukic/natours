@@ -44,7 +44,7 @@ exports.getAllTours = async (req, res) => {
     // {difficulty: 'easy', duration: {gte: '5'}}
     // gte, gt, lte, lt
 
-    const query = Tour.find(queryObj);
+    const query = Tour.find(JSON.parse(queryStr));
 
     // EXECUTE QUERY
     const tours = await query;
