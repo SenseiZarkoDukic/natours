@@ -30,37 +30,48 @@ class APIFeatures {
     // let query = Tour.find(JSON.parse(queryStr));
     return this;
   }
+
+  sort() {
+    if (this.queryString.sort) {
+      const sortBy = this.queryString.sort.split(',').join(' ');
+      console.log(sortBy);
+      this.query = this.query.sort(sortBy);
+    } else {
+      this.query = this.query.sort('-createdAt');
+    }
+    return this;
+  }
 }
 
 exports.getAllTours = async (req, res) => {
   try {
     // BUILD QUERY
     // 1A) Filtering
-    const queryObj = { ...req.query };
-    const excludedFields = ['page', 'sort', 'limit', 'fields'];
-    excludedFields.forEach((el) => delete queryObj[el]);
+    // const queryObj = { ...req.query };
+    // const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    // excludedFields.forEach((el) => delete queryObj[el]);
 
-    console.log(req.query, queryObj);
-    // 1B) Advanced Filtering
-    let queryStr = JSON.stringify(queryObj);
-    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
-    console.log(JSON.parse(queryStr));
+    // console.log(req.query, queryObj);
+    // // 1B) Advanced Filtering
+    // let queryStr = JSON.stringify(queryObj);
+    // queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+    // console.log(JSON.parse(queryStr));
 
     // {difficulty: 'easy', duration: {$gte: 5}}
     // {difficulty: 'easy', duration: {gte: '5'}}
     // gte, gt, lte, lt
 
-    let query = Tour.find(JSON.parse(queryStr));
+    // let query = Tour.find(JSON.parse(queryStr));
 
     // 2) Sorting
-    if (req.query.sort) {
-      const sortBy = req.query.sort.split(',').join(' ');
-      console.log(sortBy);
-      query = query.sort(sortBy);
-      // sort('price ratingsAverage')
-    } else {
-      query = query.sort('-createdAt');
-    }
+    // if (req.query.sort) {
+    //   const sortBy = req.query.sort.split(',').join(' ');
+    //   console.log(sortBy);
+    //   query = query.sort(sortBy);
+    //   // sort('price ratingsAverage')
+    // } else {
+    //   query = query.sort('-createdAt');
+    // }
 
     // 3) Field Limiting
     if (req.query.fields) {
@@ -84,7 +95,7 @@ exports.getAllTours = async (req, res) => {
     }
 
     // EXECUTE QUERY
-    const features = new APIFeatures(Tour.find(), req.query.filter());
+    const features = new APIFeatures(Tour.find(), req.query.filter().sort());
     const tours = await features.query;
 
     // SEND RESPONSE
