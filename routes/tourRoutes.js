@@ -13,8 +13,7 @@ const {
 } = tourController;
 //
 // router.param('id', checkID);
-
-// router.route('/').get(getAllTours).post(checkBody, createTour);  // This is a form of middleware stacking or mounting a router on a route
+router.route('/top-5-cheap').get(tourController.getAllTours);
 
 router.route('/').get(getAllTours).post(createTour);
 
