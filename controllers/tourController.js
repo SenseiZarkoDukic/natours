@@ -66,9 +66,11 @@ exports.getAllTours = async (req, res) => {
     }
 
     // 4) Pagination
+    const page = req.query.page * 1 || 1;
 
-    // page=2&limit=10, 1-10 page 1, 11-20 page 2, 21-30 page 3
-    query = query.skip(10).limit(10);
+    const limit = req.query.limit * 1 || 100;
+    // page=3&limit=10, 1-10 page 1, 11-20 page 2, 21-30 page 3
+    query = query.skip(20).limit(10);
 
     // EXECUTE QUERY
     const tours = await query;
