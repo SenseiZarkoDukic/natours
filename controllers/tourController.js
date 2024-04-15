@@ -13,6 +13,23 @@ class APIFeatures {
     this.query = query;
     this.queryString = queryString;
   }
+
+  filter() {
+    // 1A) Filtering
+    const queryObj = { ...this.queryString };
+    const excludedFields = ['page', 'sort', 'limit', 'fields'];
+    excludedFields.forEach((el) => delete queryObj[el]);
+
+    console.log(req.query, queryObj);
+    // 1B) Advanced Filtering
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+    console.log(JSON.parse(queryStr));
+
+    this.query.find(JSON.parse(this.queryStr));
+    // let query = Tour.find(JSON.parse(queryStr));
+    return this;
+  }
 }
 
 exports.getAllTours = async (req, res) => {
@@ -67,7 +84,8 @@ exports.getAllTours = async (req, res) => {
     }
 
     // EXECUTE QUERY
-    const tours = await query;
+    const features = new APIFeatures(Tour.find(), req.query.filter());
+    const tours = await features.query;
 
     // SEND RESPONSE
     res.status(200).json({
