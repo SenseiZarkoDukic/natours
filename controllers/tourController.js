@@ -80,17 +80,6 @@ exports.getAllTours = async (req, res) => {
     // EXECUTE QUERY
     const tours = await query;
 
-    // const query = await Tour.find({
-    //   duration: 5,
-    //   difficulty: 'easy',
-    // });
-
-    // const tours = await Tour.find()
-    //   .where('duration')
-    //   .equals(5)
-    //   .where('difficulty')
-    //   .equals('easy');
-
     // SEND RESPONSE
     res.status(200).json({
       status: 'success',
@@ -103,7 +92,7 @@ exports.getAllTours = async (req, res) => {
   } catch (err) {
     res.status(404).json({
       status: 'fail',
-      message: err,
+      message: err.message,
     });
   }
 };
