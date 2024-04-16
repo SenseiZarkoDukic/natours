@@ -150,3 +150,12 @@ exports.getTourStats = async (req, res) => {
     });
   }
 };
+exports.getMonthlyPlan = async (req, res) => {
+  try {
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
+};
