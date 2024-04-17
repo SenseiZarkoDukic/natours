@@ -96,7 +96,13 @@ toursSchema.pre(/^find/, function (next) {
 
 toursSchema.post(/^find/, function (docs, next) {
   console.log(`Query took ${Date.now() - this.start} milliseconds!`);
-  console.log(docs);
+  next();
+});
+
+// AGGREGATION MIDDLEWARE
+toursSchema.pre('aggregate', function (next) {
+  // this.pipeline().unshift({ $match: { secretTour: { $ne: true } } });
+  console.log(this);
   next();
 });
 
