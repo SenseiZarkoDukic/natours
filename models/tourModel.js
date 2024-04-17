@@ -71,6 +71,11 @@ toursSchema.pre('save', function (next) {
   this.slug = slugify(this.name, { lower: true });
   next();
 });
+
+toursSchema.post('save', function (doc, next) {
+  console.log(`${doc} Document saved`);
+  next();
+});
 const Tour = mongoose.model('Tour', toursSchema);
 
 module.exports = Tour;
