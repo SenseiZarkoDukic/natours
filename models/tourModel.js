@@ -67,7 +67,8 @@ toursSchema.virtual('durationWeeks').get(function () {
 
 // DOCUMENT MIDDLEWARE: runs before .save() and .create()
 toursSchema.pre('save', function (next) {
-  console.log(this);
+  this.slug = slugify(this.name, { lower: true });
+  next();
 });
 const Tour = mongoose.model('Tour', toursSchema);
 
