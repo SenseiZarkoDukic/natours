@@ -17,11 +17,6 @@ app.use(express.json()); // middleware to parse the body of the request
 app.use(express.static(`${__dirname}/public`)); // middleware to serve static files
 
 app.use((req, res, next) => {
-  console.log('Hello from the middleware 👋');
-  next();
-}); // custom middleware
-
-app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
   next();
 }); // custom middleware
