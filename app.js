@@ -2,6 +2,7 @@ const express = require('express');
 
 const morgan = require('morgan'); // 3rd party middleware
 const AppError = require('./utils/appError'); // import the AppError class
+const globalErrorHandler = require('./controllers/errorController'); // import the error controller
 const tourRouter = require('./routes/tourRoutes'); // import the tour router
 const userRouter = require('./routes/userRoutes'); // import the user router
 
@@ -29,20 +30,6 @@ app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 }); // catch-all route
 
-app.use((err, req, res, next) => {
-  console.log(err.stack);
-  err.statusCode = err.statusCode || 500;
-  err.status = err.status || 'error';
-  res.status(err.statusCode).json({
-    status: err.status,
-    message: err.message,
-  });
-
-  // console.log(err.stack);
-  // res.status(500).json({
-  //   status: 'error',
-  //   message: err.message,
-  // });
-}); // error handling middleware
+app.use(globalErrorHandler); // error handling middleware
 
 module.exports = app;
