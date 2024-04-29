@@ -26,15 +26,7 @@ app.use((req, res, next) => {
 app.use('/api/v1/tours', tourRouter); // use the router middleware (mounting the router on a new route - this is a form of middleware stacking or mounting a router on a route)
 app.use('/api/v1/users', userRouter); // use the router middleware
 app.all('*', (req, res, next) => {
-  // res.status(404).json({
-  //   status: 'fail',
-  //   message: `Can't find ${req.originalUrl} on this server!`,
-  // });
-
-  const err = new Error(`Can't find ${req.originalUrl} on this server!`);
-  err.status = 'fail';
-  err.statusCode = 404;
-  next(err);
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 }); // catch-all route
 
 app.use((err, req, res, next) => {
