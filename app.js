@@ -1,7 +1,7 @@
 const express = require('express');
 
 const morgan = require('morgan'); // 3rd party middleware
-
+const AppError = require('./utils/appError'); // import the AppError class
 const tourRouter = require('./routes/tourRoutes'); // import the tour router
 const userRouter = require('./routes/userRoutes'); // import the user router
 
@@ -38,6 +38,7 @@ app.all('*', (req, res, next) => {
 }); // catch-all route
 
 app.use((err, req, res, next) => {
+  console.log(err.stack);
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
   res.status(err.statusCode).json({
