@@ -43,6 +43,6 @@ module.exports = (err, req, res, next) => {
     let error = { ...err };
     // Operational, trusted error: send message to client
     if (error.name === 'CastError') error = handleCastErrorDB(error);
-    sendErrorProd(err, res); // Programming or other unknown error: don't leak error details
+    sendErrorProd(error, res); // Programming or other unknown error: don't leak error details
   }
 };
