@@ -1,4 +1,5 @@
 const fs = require('fs');
+
 const Tour = require('./../models/tourModel');
 const APIFeatures = require('./../utils/apiFeatures');
 const catchAsync = require('./../utils/catchAsync');
@@ -32,7 +33,9 @@ exports.getAllTours = catchAsync(async (req, res, next) => {
 });
 
 exports.getTour = catchAsync(async (req, res, next) => {
-  const tour = await Tour.findById(req.params.id);
+  const id = req.params.id;
+
+  const tour = await Tour.findById(id);
   // Tour.findOne({ _id: req.params.id });
 
   if (!tour) {

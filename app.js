@@ -1,5 +1,5 @@
 const express = require('express');
-
+const mongoose = require('mongoose'); // import mongoose
 const morgan = require('morgan'); // 3rd party middleware
 const AppError = require('./utils/appError'); // import the AppError class
 const globalErrorHandler = require('./controllers/errorController'); // import the error controller
@@ -26,6 +26,12 @@ app.use((req, res, next) => {
 
 app.use('/api/v1/tours', tourRouter); // use the router middleware (mounting the router on a new route - this is a form of middleware stacking or mounting a router on a route)
 app.use('/api/v1/users', userRouter); // use the router middleware
+app.use('/api/tours/:id', (req, res, next) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).send('Invalid ObjectId');
+  }
+  next();
+}); // middleware to check if the id is a valid ObjectId
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 }); // catch-all route
