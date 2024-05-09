@@ -17,34 +17,31 @@ const sendErrorDev = (err, res) => {
 const sendErrorProd = (err, res) => {
   // Operational, trusted error: send message to client
   if (err.isOperational) {
-    res.status(err.statusCode).json({
+    res.status(400).json({
       status: err.status,
       message: err.message,
     }); // Programming or other unknown error: don't leak error details
   } else {
     // 1) Log error
-    console.error('ERROR 💥', err);
+    // console.error('ERROR 💥', err);
 
     // 2) Send generic message
-    res.status(500).json({
+    res.status(400).json({
       status: 'error',
       message: 'Something went very wrong!',
     });
   }
 }; // send error for production environment
 
-module.exports = (err, req, res, next) => {
-  err.statusCode = err.statusCode || 500;
-  err.status = err.status || 'error';
+module.exports = (error, request, response, next) => {
+  error.statusCode = error.statusCode || 500;
+  error.status = error.status || 'error';
 
   if (process.env.NODE_ENV === 'development') {
-    sendErrorDev(err, res);
+    sendErrorDev(error, res);
   } else if (process.env.NODE_ENV === 'production') {
-    let error = { ...err };
-    console.log(error);
-    // Operational, trusted error: send message to client
     if (error.name === 'CastError') error = handleCastErrorDB(error);
-
-    sendErrorProd(error, res); // Programming or other unknown error: don't leak error details
+    else error = err;
+    sendErrorProd(error, res);
   }
 };
