@@ -33,15 +33,16 @@ const sendErrorProd = (err, res) => {
   }
 }; // send error for production environment
 
-module.exports = (error, request, response, next) => {
-  error.statusCode = error.statusCode || 500;
-  error.status = error.status || 'error';
+module.exports = (err, req, res, next) => {
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || 'error';
 
   if (process.env.NODE_ENV === 'development') {
-    sendErrorDev(error, res);
+    sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === 'production') {
+    let error = { ...err };
     if (error.name === 'CastError') error = handleCastErrorDB(error);
-    else error = err;
+
     sendErrorProd(error, res);
   }
 };
