@@ -9,6 +9,8 @@ const router = express.Router(); // create a USER router
 
 router.post('/signup', authController.signup); // create a new user
 
+router.post('/login', authController.login); // login a user
+
 router.route('/').get(getAllUsers).post(createUser);
 
 router.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
