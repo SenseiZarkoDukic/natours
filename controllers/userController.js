@@ -1,12 +1,20 @@
 const fs = require('fs');
+const User = require('./../models/userModel');
+const APIFeatures = require('./../utils/apiFeatures');
+const catchAsync = require('./../utils/catchAsync');
 
-const crypto = require('crypto');
+// const users = JSON.parse(
+//   fs.readFileSync(`${__dirname}/../dev-data/data/users.json`)
+// );
 
-const users = JSON.parse(
-  fs.readFileSync(`${__dirname}/../dev-data/data/users.json`)
-);
+exports.getAllUsers = catchAsync(async (req, res, next) => {
+  const features = new APIFeatures(User.find(), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+  const users = await features.query;
 
-exports.getAllUsers = (req, res) => {
   if (!users) {
     return res.status(500).json({
       status: 'error',
@@ -20,11 +28,16 @@ exports.getAllUsers = (req, res) => {
       users,
     },
   });
-};
+});
 
-exports.getUser = (req, res) => {
+exports.getUser = catchAsync(async (req, res) => {
   const id = req.params.id;
-  const user = users.find((el) => el._id === id);
+  const features = new APIFeatures(User.findById(id), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+  const user = await features.query;
   if (!user) {
     return res.status(404).json({
       status: 'fail',
@@ -37,7 +50,7 @@ exports.getUser = (req, res) => {
       user,
     },
   });
-};
+});
 
 exports.createUser = (req, res) => {
   const lastId = users[users.length - 1]._id;
