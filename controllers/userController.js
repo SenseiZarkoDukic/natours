@@ -62,48 +62,49 @@ exports.createUser = catchAsync(async (req, res) => {
   });
 });
 
-exports.updateUser = (req, res) => {
+exports.updateUser = catchAsync(async (req, res) => {
   const id = req.params.id;
-  const user = users.find((el) => el._id === id);
+  const features = new APIFeatures(User.findById(id), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+  const user = await features.query;
   if (!user) {
     return res.status(404).json({
       status: 'fail',
       message: 'Invalid ID',
     });
   }
-  const editedUser = Object.assign(user, req.body);
-  fs.writeFile(
-    `${__dirname}/../dev-data/data/users.json`,
-    JSON.stringify(users),
-    (err) => {
-      res.status(200).json({
-        status: 'success',
-        data: {
-          user: editedUser,
-        },
-      });
-    }
-  );
-};
+  const updatedUser = await User.findByIdAndUpdate(id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+  res.status(200).json({
+    status: 'success',
+    data: {
+      user: updatedUser,
+    },
+  });
+});
 
-exports.deleteUser = (req, res) => {
+exports.deleteUser = catchAsync(async (req, res) => {
   const id = req.params.id;
-  const user = users.find((el) => el._id === id);
+  const features = new APIFeatures(User.findById(id), req.query)
+    .filter()
+    .sort()
+    .limitFields()
+    .paginate();
+  const user = await features.query;
   if (!user) {
     return res.status(404).json({
       status: 'fail',
       message: 'Invalid ID',
     });
   }
-  const deleteUserObj = users.splice(users.indexOf(user), 1);
-  fs.writeFile(
-    `${__dirname}/../dev-data/data/users.json`,
-    JSON.stringify(users),
-    (err) => {
-      res.status(204).json({
-        status: 'success',
-        data: { deleteUserObj },
-      });
-    }
-  );
-};
+  await User.findByIdAndDelete(id);
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});
