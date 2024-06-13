@@ -1,6 +1,7 @@
 const express = require('express');
-const tourController = require('../controllers/tourController'); // import the tour controller
+const tourController = require('./../controllers/tourController'); // import the tour controller
 const router = express.Router(); // create a TOUR router
+const authController = require('./../controllers/authController');
 
 const {
   getAllTours,
