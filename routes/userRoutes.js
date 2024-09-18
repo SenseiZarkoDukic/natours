@@ -8,11 +8,19 @@ const { getAllUsers, getUser, createUser, updateUser, deleteUser } =
 const router = express.Router(); // create a USER router
 
 router.post('/signup', authController.signup); // create a new user
-
 router.post('/login', authController.login); // login a user
 
-router.route('/').get(getAllUsers).post(createUser);
+router.post('/forgotPassword', authController.login); // forgot password
+router.post('/resetPassword', authController.login); // reset password
 
-router.route('/:id').get(getUser).patch(updateUser).delete(deleteUser);
+router
+  .route('/')
+  .get(userController.getAllUsers)
+  .post(userController.createUser);
+router
+  .route('/:id')
+  .get(userController.getUser)
+  .patch(userController.updateUser)
+  .delete(userController.deleteUser);
 
 module.exports = router; // export the router

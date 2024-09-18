@@ -112,3 +112,15 @@ exports.restrictTo = (...roles) => {
     next();
   };
 };
+
+exports.forgotPassword = (req, res, next) => {
+  // 1) Get user based on POSTed email
+  const user = User.findOne({ email: req.body.email });
+
+
+
+
+
+export.resetPassword = (req, res, next) => {
+  // 1) Get user based on the token
+  const user = User.findOne({
