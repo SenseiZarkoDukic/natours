@@ -41,7 +41,9 @@ const sendErrorProd = (err, res) => {
   if (err.isOperational) {
     res.status(err.statusCode).json({
       status: err.status,
+      error: err,
       message: err.message,
+      stack: err.stack,
     }); // Programming or other unknown error: don't leak error details
   } else {
     // 1) Log error

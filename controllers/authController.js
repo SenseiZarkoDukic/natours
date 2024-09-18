@@ -115,7 +115,7 @@ exports.restrictTo = (...roles) => {
 
 exports.forgotPassword = catchAsync(async (req, res, next) => {
   // 1) Get user based on POSTed email
-  const user = User.findOne({ email: req.body.email });
+  const user = await User.findOne({ email: req.body.email });
   if (!user) {
     return next(new AppError('There is no user with email address.', 404));
   }
@@ -129,7 +129,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
 exports.resetPassword = (req, res, next) => {
   // 1) Get user based on the token
-  const user = User.findOne({});
+  // const user = User.findOne({});
   // 2) If token has not expired, and there is user, set the new password
   // 3) Update changedPasswordAt property for the user
   // 4) Log the user in, send JWT
