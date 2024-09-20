@@ -52,12 +52,7 @@ exports.login = catchAsync(async (req, res, next) => {
   }
 
   // 3) If everything is ok, send token to client
-  const token = signToken(user._id);
-
-  res.status(200).json({
-    status: 'success',
-    token,
-  });
+  createSendToken(user, 200, res);
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
