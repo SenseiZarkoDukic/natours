@@ -23,6 +23,7 @@ const createSendToken = (user, statusCode, res) => {
       user,
     },
   });
+};
 
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create({
@@ -33,7 +34,7 @@ exports.signup = catchAsync(async (req, res, next) => {
     passwordChangedAt: req.body.passwordChangedAt,
     role: req.body.role,
   });
-createSendToken(newUser, 201, res);
+  createSendToken(newUser, 201, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -183,7 +184,6 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   // 4) Log the user in, send JWT
 
   createSendToken(user, 200, res);
-  
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
@@ -203,10 +203,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   await user.save();
 
   // 4) Log user in, send JWT
-  const token = signToken(user._id);
-
-  res.status(200).json({
-    status: 'success',
-    token,
-  });
+  createSendToken(user, 200, res);
 });
