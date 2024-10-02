@@ -43,14 +43,18 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
   // 2) Update user document
 
-  const user = await User.findById(req.user.id);
+  const updatedUser = await User.findByIdAndUpdate(req.user.id, XMLDocument, {
+    new: true,
+    runValidators: true,
+  });
+
   user.name = 'Mik';
   await user.save();
 
   res.status(200).json({
     status: 'success',
     data: {
-      user,
+      user: updatedUser,
     },
   });
 });
