@@ -7,6 +7,14 @@ const catchAsync = require('./../utils/catchAsync');
 //   fs.readFileSync(`${__dirname}/../dev-data/data/users.json`)
 // );
 
+const filterObj = (obj, ...allowedFields) => {
+  const newObj = {};
+  Object.keys(obj).forEach((el) => {
+    if (allowedFields.includes(el)) newObj[el] = obj[el];
+  });
+  return newObj;
+};
+
 exports.getAllUsers = catchAsync(async (req, res, next) => {
   const features = new APIFeatures(User.find(), req.query)
     .filter()
@@ -40,16 +48,13 @@ exports.updateMe = catchAsync(async (req, res, next) => {
       )
     );
   }
-
-  // 2) Update user document
-
-  const updatedUser = await User.findByIdAndUpdate(req.user.id, XMLDocument, {
+  // 2) Filtered out unwanted fields names that are not allowed to be updated
+  const filteredBody = filterObj(req.body, 'name', 'email');
+  // 3) Update user document
+  const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
     runValidators: true,
   });
-
-  user.name = 'Mik';
-  await user.save();
 
   res.status(200).json({
     status: 'success',
