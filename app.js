@@ -6,15 +6,23 @@ const globalErrorHandler = require('./controllers/errorController'); // import t
 const tourRouter = require('./routes/tourRoutes'); // import the tour router
 const userRouter = require('./routes/userRoutes'); // import the user router
 const tourController = require('./controllers/tourController'); // import the tour controller
+const userController = require('./controllers/userController'); // import the user controller
+const rateLimit = require('express-rate-limit'); // import the rate limiter
 
 const app = express();
 
-// 1) MIDDLEWARES
+// 1) GLOBAL MIDDLEWARES
 
 console.log(process.env.NODE_ENV); // environment variable
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev')); // logging middleware
 }
+
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 1000,
+  message: 'Too many requests from this IP, please try again in an hour!',
+}); // rate limiter
 
 app.use(express.json()); // middleware to parse the body of the request
 app.use(express.static(`${__dirname}/public`)); // middleware to serve static files
