@@ -122,6 +122,14 @@ exports.updateUser = catchAsync(async (req, res) => {
   });
 });
 
+exports.deleteMe = catchAsync(async (req, res, next) => {
+  await User.findByIdAndUpdate(req.user.id, { active: false });
+  res.status(204).json({
+    status: 'success',
+    data: null,
+  });
+});
+
 exports.deleteUser = catchAsync(async (req, res) => {
   const id = req.params.id;
   const features = new APIFeatures(User.findById(id), req.query)
