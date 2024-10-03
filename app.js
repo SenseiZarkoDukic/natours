@@ -24,6 +24,8 @@ const limiter = rateLimit({
   message: 'Too many requests from this IP, please try again in an hour!',
 }); // rate limiter
 
+app.use('/api', limiter); // apply the rate limiter to the /api route
+
 app.use(express.json()); // middleware to parse the body of the request
 app.use(express.static(`${__dirname}/public`)); // middleware to serve static files
 
